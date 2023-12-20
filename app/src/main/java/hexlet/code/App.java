@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -19,8 +20,12 @@ public class App implements Callable<Integer> {
     public Integer call() {
         try {
             System.out.println(Differ.generate(filePath1, filePath2));
+        } catch (MismatchedInputException e) {
+            System.out.println(e.getMessage());
+            return -1;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return -2;
         }
         return 0;
     }
