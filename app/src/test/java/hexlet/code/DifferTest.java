@@ -7,13 +7,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DifferTest {
     static String filesPath;
-    static String expectedPositive1;
-    static String expectedPositive2;
+    static String expectedStylish1;
+    static String expectedStylish2;
+    static String expectedPlain1;
 
     @BeforeAll
     static void beforeAll() {
         filesPath = "./src/test/resources/";
-        expectedPositive1 = "{\n"
+        expectedStylish1 = "{\n"
                             + "      chars1: [a, b, c]\n"
                             + "    - chars2: [d, e, f]\n"
                             + "    + chars2: false\n"
@@ -38,7 +39,7 @@ class DifferTest {
                             + "    - setting3: true\n"
                             + "    + setting3: none\n"
                             + "}";
-        expectedPositive2 = "{\n"
+        expectedStylish2 = "{\n"
                             + "    - follow: false\n"
                             + "      host: hexlet.io\n"
                             + "    - proxy: 123.234.53.22\n"
@@ -46,14 +47,38 @@ class DifferTest {
                             + "    + timeout: 20\n"
                             + "    + verbose: true\n"
                             + "}";
+        expectedPlain1 = "Property 'chars2' was updated. From [complex value] to false\n"
+                        + "Property 'checked' was updated. From false to true\n"
+                        + "Property 'default' was updated. From null to [complex value]\n"
+                        + "Property 'id' was updated. From 45 to null\n"
+                        + "Property 'key1' was removed\n"
+                        + "Property 'key2' was added with value: 'value2'\n"
+                        + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                        + "Property 'numbers3' was removed\n"
+                        + "Property 'numbers4' was added with value: [complex value]\n"
+                        + "Property 'obj1' was added with value: [complex value]\n"
+                        + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
+                        + "Property 'setting2' was updated. From 200 to 300\n"
+                        + "Property 'setting3' was updated. From true to 'none'";
     }
 
     @Test
-    void generateJsonTest() {
+    void generateJsonStylishTest() {
         String actual = null;
         try {
             actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/file2.json");
-            assertThat(actual).isEqualTo(expectedPositive1);
+            assertThat(actual).isEqualTo(expectedStylish1);
+        } catch (Exception e) {
+            assertThat(actual).isNotNull();
+        }
+    }
+    @Test
+    void generateJsonPlainTest() {
+        String actual = null;
+        try {
+            actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/file2.json",
+                                        Formatter.PLAIN_FORMAT);
+            assertThat(actual).isEqualTo(expectedPlain1);
         } catch (Exception e) {
             assertThat(actual).isNotNull();
         }
@@ -64,7 +89,7 @@ class DifferTest {
         String actual = null;
         try {
             actual = Differ.generate(filesPath + "yaml/file3.yml", filesPath + "yaml/file4.yml");
-            assertThat(actual).isEqualTo(expectedPositive1);
+            assertThat(actual).isEqualTo(expectedStylish1);
         } catch (Exception e) {
             assertThat(actual).isNotNull();
         }

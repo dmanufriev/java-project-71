@@ -45,10 +45,3 @@ public class NodeDiff {
         this.objectTo = objectTo;
     }
 }
-
-enum DiffType {
-    NO_CHANGES,
-    ADD,
-    DELETE,
-    UPDATE
-}
