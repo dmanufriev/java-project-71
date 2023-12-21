@@ -12,3 +12,9 @@ build:
 report:
 	./gradlew jacocoTestReport
 
+help:
+	@./build/install/app/bin/app -h
+
+version:
+	@./build/install/app/bin/app -V
+
