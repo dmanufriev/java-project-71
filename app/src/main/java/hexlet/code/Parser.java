@@ -26,6 +26,7 @@ public class Parser {
             throw new Exception("File '" + filePath + "' has wrong extension");
         }
 
+// TODO       Map<String, Object> employee = objectMapper.readValue(file, new TypeReference<>(){});
         return mapper.readValue(Files.readString(path), Map.class);
     }
 }

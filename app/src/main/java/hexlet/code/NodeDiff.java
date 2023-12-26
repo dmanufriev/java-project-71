@@ -1,5 +1,6 @@
 package hexlet.code;
 
+//TODO Добавить lombok
 public class NodeDiff {
     private DiffType type;
     private String key;

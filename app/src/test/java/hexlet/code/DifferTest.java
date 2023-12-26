@@ -10,6 +10,7 @@ class DifferTest {
     static String expectedStylish1;
     static String expectedStylish2;
     static String expectedPlain1;
+    static String expectedJson1;
 
     @BeforeAll
     static void beforeAll() {
@@ -60,6 +61,14 @@ class DifferTest {
                         + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
                         + "Property 'setting2' was updated. From 200 to 300\n"
                         + "Property 'setting3' was updated. From true to 'none'";
+        expectedJson1 = "[\n"
+                        + "  {\"key\":\"follow\",\"action\":\"DELETE\",\"objectFrom\":false},\n"
+                        + "  {\"key\":\"host\",\"action\":\"NO_CHANGES\","
+                        + "\"objectFrom\":\"hexlet.io\",\"objectTo\":\"hexlet.io\"},\n"
+                        + "  {\"key\":\"proxy\",\"action\":\"DELETE\",\"objectFrom\":\"123.234.53.22\"},\n"
+                        + "  {\"key\":\"timeout\",\"action\":\"UPDATE\",\"objectFrom\":50,\"objectTo\":20},\n"
+                        + "  {\"key\":\"verbose\",\"action\":\"ADD\",\"objectTo\":true}\n"
+                        + "]";
     }
 
     @Test
@@ -79,6 +88,19 @@ class DifferTest {
             actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/file2.json",
                                         Formatter.PLAIN_FORMAT);
             assertThat(actual).isEqualTo(expectedPlain1);
+        } catch (Exception e) {
+            assertThat(actual).isNotNull();
+        }
+    }
+
+    @Test
+    void generateJsonOutputTest() {
+        String actual = null;
+        String expected = expectedJson1;
+        try {
+            actual = Differ.generate(filesPath + "yaml/file1.yml", filesPath + "yaml/file2.yml",
+                                        Formatter.JSON_FORMAT);
+            assertThat(actual).isEqualTo(expected);
         } catch (Exception e) {
             assertThat(actual).isNotNull();
         }
