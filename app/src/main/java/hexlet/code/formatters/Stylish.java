@@ -1,12 +1,12 @@
 package hexlet.code.formatters;
 
-import hexlet.code.NodeDiff;
+import hexlet.code.nodes.DiffNode;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Stylish {
 
-    public static String toString(List<NodeDiff> nodes) {
+    public static String toString(List<DiffNode> nodes) {
 
         if (nodes == null) {
             return "";

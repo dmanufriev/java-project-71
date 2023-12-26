@@ -1,5 +1,6 @@
-package hexlet.code;
+package hexlet.code.parsers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
@@ -26,7 +27,6 @@ public class Parser {
             throw new Exception("File '" + filePath + "' has wrong extension");
         }
 
-// TODO       Map<String, Object> employee = objectMapper.readValue(file, new TypeReference<>(){});
-        return mapper.readValue(Files.readString(path), Map.class);
+        return mapper.readValue(Files.readString(path), new TypeReference<>() { });
     }
 }

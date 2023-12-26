@@ -1,7 +1,7 @@
 package hexlet.code.formatters;
 
-import hexlet.code.DiffType;
-import hexlet.code.NodeDiff;
+import hexlet.code.nodes.DiffNodeType;
+import hexlet.code.nodes.DiffNode;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,12 +10,14 @@ import java.util.stream.Collectors;
 
 public class Plain {
 
-    public static String toString(List<NodeDiff> nodes) {
+    public static String toString(List<DiffNode> nodes) {
+
         if (nodes == null) {
             return "";
         }
+
         return nodes.stream()
-                    .filter(node -> node.getType() != DiffType.NO_CHANGES)
+                    .filter(node -> node.getType() != DiffNodeType.NO_CHANGES)
                     .map(node -> {
                         String resultString = "Property '" + node.getKey() + "' ";
                         switch (node.getType()) {

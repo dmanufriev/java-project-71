@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.nodes;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -6,26 +6,26 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class NodeDiffSerializer extends StdSerializer<NodeDiff> {
+public class DiffNodeSerializer extends StdSerializer<DiffNode> {
 
-    public NodeDiffSerializer() {
+    public DiffNodeSerializer() {
         this(null);
     }
 
-    public NodeDiffSerializer(Class<NodeDiff> t) {
+    public DiffNodeSerializer(Class<DiffNode> t) {
         super(t);
     }
 
     @Override
-    public void serialize(NodeDiff node, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(DiffNode node, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeStringField("key", node.getKey());
-        DiffType diffType = node.getType();
-        gen.writeStringField("action", diffType.toString());
-        if (diffType != DiffType.ADD) {
+        DiffNodeType diffNodeType = node.getType();
+        gen.writeStringField("action", diffNodeType.toString());
+        if (diffNodeType != DiffNodeType.ADD) {
             gen.writeObjectField("objectFrom", node.getObjectFrom());
         }
-        if (diffType != DiffType.DELETE) {
+        if (diffNodeType != DiffNodeType.DELETE) {
             gen.writeObjectField("objectTo", node.getObjectTo());
         }
         gen.writeEndObject();

@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit;
@@ -8,11 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AppTest {
 
-    String filesPath;
-    @BeforeEach
-    void beforeEach() {
-        filesPath = "./src/test/resources/";
-    }
+    static String filesPath = "./src/test/resources/";
 
     @Test
     void mainPositiveTest() throws Exception {
