@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class DiffNodeSerializer extends StdSerializer<DiffNode> {
+public final class DiffNodeSerializer extends StdSerializer<DiffNode> {
 
     public DiffNodeSerializer() {
         this(null);

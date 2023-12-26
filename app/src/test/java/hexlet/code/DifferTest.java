@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DifferTest {
-    static String filesPath = "./src/test/resources/";
+    private static String filesPath = "./src/test/resources/";
 
     @Test
     void generateDefaultTest() {

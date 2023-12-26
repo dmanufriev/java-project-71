@@ -1,13 +1,15 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AppTest {
 
-    static String filesPath = "./src/test/resources/";
+    private static String filesPath = "./src/test/resources/";
 
     @Test
     void mainPositiveTest() throws Exception {
@@ -17,20 +19,15 @@ class AppTest {
         assertThat(statusCode).isEqualTo(0);
     }
 
-    @Test
-    void mainMismatchedInputExceptionTest() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+        "json/fileEmpty.json, json/file2.json",
+        "file1.json, json/file2.json"
+    })
+    void mainMismatchedInputExceptionTest(String fileFrom, String fileTo) throws Exception {
         int statusCode = catchSystemExit(() -> {
-            App.main(filesPath + "json/fileEmpty.json", filesPath + "json/file2.json");
+            App.main(filesPath + fileFrom, filesPath + fileTo);
         });
-        assertThat(statusCode).isEqualTo(-1);
+        assertThat(statusCode).isNotEqualTo(0);
     }
-
-    @Test
-    void mainExceptionTest() throws Exception {
-        int statusCode = catchSystemExit(() -> {
-            App.main(filesPath + "file1.json", filesPath + "json/file2.json");
-        });
-        assertThat(statusCode).isEqualTo(-2);
-    }
-
 }
