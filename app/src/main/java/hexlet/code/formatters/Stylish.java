@@ -12,7 +12,7 @@ public class Stylish {
             return "";
         }
 
-        String lineTemplate = "    %s %s: %s\n";
+        String lineTemplate = "  %s %s: %s\n";
         String diffResult = "{\n";
         diffResult += nodes.stream()
                 .map(node -> {
