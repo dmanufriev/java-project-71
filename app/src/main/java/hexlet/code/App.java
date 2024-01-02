@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Getter;
 import lombok.Setter;
 import picocli.CommandLine;
@@ -23,15 +24,22 @@ public final class App implements Callable<Integer> {
     @Parameters(paramLabel = "filepath2", description = "path to second file")
     private static String filePath2;
 
+    public static final int OK_EXIT_CODE = 0;
+    public static final int JSON_EXCEPTION_EXIT_CODE = 1;
+    public static final int EXCEPTION_EXIT_CODE = 2;
+
     @Override
     public Integer call() {
         try {
             System.out.println(Differ.generate(filePath1, filePath2, format));
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+            return JSON_EXCEPTION_EXIT_CODE;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return -1;
+            return EXCEPTION_EXIT_CODE;
         }
-        return 0;
+        return OK_EXIT_CODE;
     }
     public static void main(String... args) {
         int exitCode = new CommandLine(new App()).execute(args);
