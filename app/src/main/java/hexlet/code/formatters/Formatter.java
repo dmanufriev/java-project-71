@@ -1,8 +1,6 @@
 package hexlet.code.formatters;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import hexlet.code.nodes.DiffNode;
-
 import java.util.List;
 
 public class Formatter {
@@ -12,7 +10,7 @@ public class Formatter {
     public static final String JSON_FORMAT = "json";
 
 
-    public static String toString(List<DiffNode> nodes, String format) throws JsonProcessingException {
+    public static String toString(List<DiffNode> nodes, String format) throws Exception {
 
         switch (format.toLowerCase()) {
             case PLAIN_FORMAT:
@@ -25,7 +23,7 @@ public class Formatter {
                 return Json.toString(nodes);
 
             default:
-                return "Format " + format + " isn't supported";
+                throw new Exception("Format " + format + " isn't supported");
         }
     }
 }

@@ -18,6 +18,14 @@ class AppTest {
     }
 
     @Test
+    void mainAllArgsPositiveTest() throws Exception {
+        int statusCode = catchSystemExit(() -> {
+            App.main("-f=json", filesPath + "json/file1.json", filesPath + "json/file2.json");
+        });
+        assertThat(statusCode).isEqualTo(App.OK_EXIT_CODE);
+    }
+
+    @Test
     void mainMismatchedInputExceptionTest() throws Exception {
         int statusCode = catchSystemExit(() -> {
             App.main(filesPath + "json/fileEmpty.json", filesPath + "json/file2.json");

@@ -19,23 +19,27 @@ public class Plain {
         return nodes.stream()
                     .filter(node -> node.getType() != DiffNodeType.NO_CHANGES)
                     .map(node -> {
-                        String resultString = "Property '" + node.getKey() + "' ";
+                        StringBuilder builder = new StringBuilder("Property '");
+                        builder.append(node.getKey());
+                        builder.append("' ");
                         switch (node.getType()) {
                             case ADD:
-                                resultString += "was added with value: " + objectToString(node.getObjectTo());
+                                builder.append("was added with value: ");
+                                builder.append(objectToString(node.getObjectTo()));
                                 break;
                             case DELETE:
-                                resultString += "was removed";
+                                builder.append("was removed");
                                 break;
                             case UPDATE:
-                                resultString += "was updated. From " + objectToString(node.getObjectFrom())
-                                                + " to " + objectToString(node.getObjectTo());
+                                builder.append("was updated. From ");
+                                builder.append(objectToString(node.getObjectFrom()));
+                                builder.append(" to ");
+                                builder.append(objectToString(node.getObjectTo()));
                                 break;
                             default:
-                                resultString = "";
                                 break;
                         }
-                        return resultString;
+                        return builder.toString();
                     })
                 .collect(Collectors.joining("\n"));
     }

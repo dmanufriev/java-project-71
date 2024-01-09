@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 @Getter
 @Setter
 public final class App implements Callable<Integer> {
+
     @Option(names = { "-f", "--format" },
             paramLabel = "format",
             defaultValue = "stylish",

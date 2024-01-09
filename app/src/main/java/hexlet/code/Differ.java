@@ -2,7 +2,8 @@ package hexlet.code;
 import hexlet.code.formatters.Formatter;
 import hexlet.code.nodes.DiffNodeType;
 import hexlet.code.nodes.DiffNode;
-import hexlet.code.parsers.Parser;
+import hexlet.code.parsers.DataSupplier;
+import hexlet.code.parsers.ParserFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,11 @@ public class Differ {
 
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
 
-        Map<String, Object> map1 = Parser.toMap(filePath1);
-        Map<String, Object> map2 = Parser.toMap(filePath2);
+        ParserFactory parserFactory = new ParserFactory();
+        Map<String, Object> map1 = parserFactory.getParser(DataSupplier.getFileExtension(filePath1))
+                                                .parse(DataSupplier.getData(filePath1));
+        Map<String, Object> map2 = parserFactory.getParser(DataSupplier.getFileExtension(filePath2))
+                                                .parse(DataSupplier.getData(filePath2));
 
         Set<String> keys = new TreeSet<>(map1.keySet());
         keys.addAll(map2.keySet());
@@ -26,20 +30,20 @@ public class Differ {
         List<DiffNode> nodes = new ArrayList<>();
         for (String key : keys) {
             DiffNodeType diffNodeType;
-            Object value1 = map1.get(key);
-            Object value2 = map2.get(key);
             if (!map1.containsKey(key)) {
                 diffNodeType = DiffNodeType.ADD;
             } else if (!map2.containsKey(key)) {
                 diffNodeType = DiffNodeType.DELETE;
             } else {
+                Object value1 = map1.get(key);
+                Object value2 = map2.get(key);
                 if ((value1 == null) && (value2 == null) || (value1 != null && value1.equals(value2))) {
                     diffNodeType = DiffNodeType.NO_CHANGES;
                 } else {
                     diffNodeType = DiffNodeType.UPDATE;
                 }
             }
-            nodes.add(new DiffNode(diffNodeType, key, value1, value2));
+            nodes.add(new DiffNode(diffNodeType, key, map1.get(key), map2.get(key)));
         }
         return Formatter.toString(nodes, format);
     }

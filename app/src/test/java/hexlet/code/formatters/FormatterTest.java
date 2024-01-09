@@ -6,20 +6,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class FormatterTest {
 
     @Test
     void wrongFormatTest() {
         String expected = "Format wrong isn't supported";
-        String actual = null;
-
-        try {
-            actual = Formatter.toString(new ArrayList<>(), "wrong");
-            assertThat(actual).isEqualTo(expected);
-        } catch (Exception e) {
-            assertThat(actual).isNotNull();
-        }
+        var thrown = catchThrowable(() -> {
+            Formatter.toString(new ArrayList<>(), "wrong");
+        });
+        assertThat(thrown.getMessage()).isEqualTo(expected);
     }
 
     @ParameterizedTest
