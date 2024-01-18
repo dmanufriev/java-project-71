@@ -20,9 +20,15 @@ public class Differ {
 
         ParserFactory parserFactory = new ParserFactory();
         Map<String, Object> map1 = parserFactory.getParser(DataSupplier.getFileExtension(filePath1))
-                                                .parse(DataSupplier.getData(filePath1));
+                                                .parse(DataSupplier.getData(filePath1), "");
         Map<String, Object> map2 = parserFactory.getParser(DataSupplier.getFileExtension(filePath2))
-                                                .parse(DataSupplier.getData(filePath2));
+                                                .parse(DataSupplier.getData(filePath2), "");
+
+        List<DiffNode> nodes = getDiffNodes(map1, map2);
+        return Formatter.toString(nodes, format);
+    }
+
+    private static List<DiffNode> getDiffNodes(Map<String, Object> map1, Map<String, Object> map2) {
 
         Set<String> keys = new TreeSet<>(map1.keySet());
         keys.addAll(map2.keySet());
@@ -45,6 +51,7 @@ public class Differ {
             }
             nodes.add(new DiffNode(diffNodeType, key, map1.get(key), map2.get(key)));
         }
-        return Formatter.toString(nodes, format);
+
+        return nodes;
     }
 }

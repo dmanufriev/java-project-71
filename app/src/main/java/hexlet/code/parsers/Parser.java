@@ -5,5 +5,5 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Map;
 
 public interface Parser {
-    Map<String, Object> parse(String file) throws JsonProcessingException;
+    Map<String, Object> parse(String content, String dataFormat) throws JsonProcessingException;
 }
