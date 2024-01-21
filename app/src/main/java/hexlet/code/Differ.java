@@ -17,15 +17,17 @@ public class Differ {
     }
 
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
-
-        ParserFactory parserFactory = new ParserFactory();
-        Map<String, Object> map1 = parserFactory.getParser(DataSupplier.getFileExtension(filePath1))
-                                                .parse(DataSupplier.getData(filePath1), "");
-        Map<String, Object> map2 = parserFactory.getParser(DataSupplier.getFileExtension(filePath2))
-                                                .parse(DataSupplier.getData(filePath2), "");
-
+        Map<String, Object> map1 = getData(filePath1);
+        Map<String, Object> map2 = getData(filePath2);
         List<DiffNode> nodes = getDiffNodes(map1, map2);
         return Formatter.toString(nodes, format);
+    }
+
+    private static Map<String, Object> getData(String filePath) throws Exception {
+        String content = DataSupplier.getData(filePath);
+        String dataFormat = DataSupplier.getFileExtension(filePath);
+        ParserFactory parserFactory = new ParserFactory();
+        return parserFactory.getParser(dataFormat).parse(content);
     }
 
     private static List<DiffNode> getDiffNodes(Map<String, Object> map1, Map<String, Object> map2) {
