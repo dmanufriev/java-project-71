@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class DiffNodeGenerator {
-    Map<String, Object> mapFrom;
-    Map<String, Object> mapTo;
+    private Map<String, Object> mapFrom;
+    private Map<String, Object> mapTo;
 
     public DiffNodeGenerator(Map<String, Object> mapFrom, Map<String, Object> mapTo) {
         this.mapFrom = mapFrom;
