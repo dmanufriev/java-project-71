@@ -14,15 +14,10 @@ class DifferTest {
     private static String filesPath = "./src/test/resources/";
 
     @Test
-    void generateDefaultTest() {
-        String actual = null;
-        try {
-            String expected = Files.readString(Paths.get(filesPath + "output/stylish.txt"));
-            actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/file2.json");
-            assertThat(actual).isEqualTo(expected);
-        } catch (Exception e) {
-            assertThat(actual).isNotNull();
-        }
+    void generateDefaultTest() throws Exception {
+        String expected = Files.readString(Paths.get(filesPath + "output/stylish.txt"));
+        String actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/file2.json");
+        assertThat(actual).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -34,15 +29,10 @@ class DifferTest {
         "yaml/file1.yml, yaml/file2.yml, json, output/json.txt",
         "yaml/file1.yml, yaml/file2.yml, stylish, output/stylish.txt"
     })
-    void generateFormatsTest(String fileFrom, String fileTo, String format, String fileOut) {
-        String actual = null;
-        try {
-            String expected = Files.readString(Paths.get(filesPath + fileOut));
-            actual = Differ.generate(filesPath + fileFrom, filesPath + fileTo, format);
-            assertThat(actual).isEqualTo(expected);
-        } catch (Exception e) {
-            assertThat(actual).isNotNull();
-        }
+    void generateFormatsTest(String fileFrom, String fileTo, String format, String fileOut) throws Exception {
+        String expected = Files.readString(Paths.get(filesPath + fileOut));
+        String actual = Differ.generate(filesPath + fileFrom, filesPath + fileTo, format);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -50,15 +40,10 @@ class DifferTest {
         "json/file1.json",
         "yaml/file1.yml"
     })
-    void generateSameFileTest(String sameFile) {
-        String actual = null;
-        try {
-            String expected = Files.readString(Paths.get(filesPath + "output/stylishSame.txt"));
-            actual = Differ.generate(filesPath + sameFile, filesPath + sameFile);
-            assertThat(actual).isEqualTo(expected);
-        } catch (Exception e) {
-            assertThat(actual).isNotNull();
-        }
+    void generateSameFileTest(String sameFile) throws Exception {
+        String expected = Files.readString(Paths.get(filesPath + "output/stylishSame.txt"));
+        String actual = Differ.generate(filesPath + sameFile, filesPath + sameFile);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -68,13 +53,11 @@ class DifferTest {
         "json/fileEmpty.json, json/file1.json",
         "yaml/file1.yml, yaml/fileEmpty.yml"
     })
-    void generateWrongOrEmptyFileTest() {
-        String actual = null;
-        try {
-            actual = Differ.generate(filesPath + "json/file1.json", filesPath + "json/fileWrong.json");
-        } catch (Exception e) {
-        }
-        assertThat(actual).isNull();
+    void generateWrongOrEmptyFileTest(String fileFrom, String fileTo) {
+        var thrown = catchThrowable(() -> {
+            Differ.generate(filesPath + fileFrom, filesPath + fileTo);
+        });
+        assertThat(thrown).isInstanceOf(Exception.class);
     }
 
     @ParameterizedTest
@@ -83,10 +66,10 @@ class DifferTest {
         "json/file1.json, yaml/file10.yml"
     })
     void generateFilesNotFoundTest(String fileFrom, String fileTo) {
-        var thrown1 = catchThrowable(() -> {
+        var thrown = catchThrowable(() -> {
             Differ.generate(filesPath + fileFrom, filesPath + fileTo);
         });
-        assertThat(thrown1).isInstanceOf(Exception.class);
+        assertThat(thrown).isInstanceOf(Exception.class);
     }
 
     @Test

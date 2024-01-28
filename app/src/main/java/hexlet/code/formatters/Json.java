@@ -14,9 +14,6 @@ public class Json {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(nodes)
-                        .replace("[{", "[\n  {")
-                        .replace("},", "},\n  ")
-                        .replace("}]", "}\n]");
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(nodes);
     }
 }

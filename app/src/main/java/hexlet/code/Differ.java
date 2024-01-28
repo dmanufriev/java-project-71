@@ -2,7 +2,6 @@ package hexlet.code;
 import hexlet.code.formatters.Formatter;
 import hexlet.code.nodes.DiffNodeGenerator;
 import hexlet.code.nodes.DiffNode;
-import hexlet.code.parsers.DataSupplier;
 import hexlet.code.parsers.ParserFactory;
 
 import java.util.Map;
@@ -14,13 +13,9 @@ public class Differ {
     }
 
     public static String generate(String filePath1, String filePath2, String format) throws Exception {
-
         Map<String, Object> map1 = getData(filePath1);
         Map<String, Object> map2 = getData(filePath2);
-
-        DiffNodeGenerator diffNodeGenerator = new DiffNodeGenerator(map1, map2);
-        List<DiffNode> nodes = diffNodeGenerator.generate();
-
+        List<DiffNode> nodes = DiffNodeGenerator.generate(map1, map2);
         return Formatter.toString(nodes, format);
     }
 

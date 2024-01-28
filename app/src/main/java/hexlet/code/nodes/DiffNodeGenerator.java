@@ -8,27 +8,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class DiffNodeGenerator {
-    private Map<String, Object> mapFrom;
-    private Map<String, Object> mapTo;
 
-    public DiffNodeGenerator(Map<String, Object> mapFrom, Map<String, Object> mapTo) {
-        this.mapFrom = mapFrom;
-        this.mapTo = mapTo;
-    }
-
-    public List<DiffNode> generate() {
+    public static List<DiffNode> generate(Map<String, Object> mapFrom, Map<String, Object> mapTo) {
 
         Set<String> keys = new TreeSet<>(mapFrom.keySet());
         keys.addAll(mapTo.keySet());
 
         List<DiffNode> nodes = new ArrayList<>();
         for (String key : keys) {
-            nodes.add(createNode(key));
+            nodes.add(createNode(key, mapFrom, mapTo));
         }
         return nodes;
     }
 
-    private DiffNode createNode(String key) {
+    private static DiffNode createNode(String key, Map<String, Object> mapFrom, Map<String, Object> mapTo) {
         DiffNodeType diffNodeType;
         if (!mapTo.containsKey(key)) {
             diffNodeType = DiffNodeType.DELETE;

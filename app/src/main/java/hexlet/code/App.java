@@ -1,8 +1,6 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.Getter;
-import lombok.Setter;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -11,10 +9,7 @@ import java.util.concurrent.Callable;
 
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
         description = "Compares two configuration files and shows a difference.")
-@Getter
-@Setter
 public final class App implements Callable<Integer> {
-
     @Option(names = { "-f", "--format" },
             paramLabel = "format",
             defaultValue = "stylish",

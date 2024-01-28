@@ -1,4 +1,4 @@
-package hexlet.code.parsers;
+package hexlet.code;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
